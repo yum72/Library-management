@@ -207,8 +207,6 @@ let populateStorage = () => {
 }
 
 
-console.log('test')
-
 //populateStorage()
 if (!localStorage.getItem('booksData')) {
     populateStorage()
