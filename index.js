@@ -48,6 +48,7 @@ let deleteAllElems = () => {
 
 }
 
+
 let editMarkup = (fieldData) => {
 
     let markup = `<input type="text" class="editInput" value="${fieldData}">`
@@ -55,6 +56,7 @@ let editMarkup = (fieldData) => {
     return markup
 
 }
+
 
 //edit data markup changes
 let updateDataMarkup = (dataName) => {
@@ -198,10 +200,12 @@ let startListeners = () => {
     }
 }
 
+
 let populateStorage = () => {
     localStorage.setItem('booksData', JSON.stringify(booksData))
     populateData()
 }
+
 
 //populateStorage()
 if (!localStorage.getItem('booksData')) {
