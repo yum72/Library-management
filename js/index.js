@@ -1,3 +1,4 @@
+const grid = document.querySelector('.grid')
 
 
 const createButtonsMarkup = (idData) => {
@@ -31,7 +32,7 @@ const createGridItemMarkup = (propertyName, bookData) => {
 
 
 const addGridItemMarkup = (htmlMarkup) => {
-    document.querySelector('.grid').appendChild(htmlMarkup)
+    grid.appendChild(htmlMarkup)
 }
 
 
@@ -80,31 +81,6 @@ const updateDataMarkup = (dataName) => {
 
 }
 
-
-//populate books data
-const populateData = () => {
-
-    let localBooksData = localStorage.getItem('booksData')
-    localBooksData = JSON.parse(localBooksData)
-
-    for ([index, book] of localBooksData.entries()) {
-
-        const idBookName = book.bookName.split(' ').join('-')
-
-        const htmlNumberingMarkup = createGridItemMarkup(idBookName, index + 1)
-        addGridItemMarkup(htmlNumberingMarkup)
-
-        for (property in book) {
-            const htmlMarkup = createGridItemMarkup(idBookName, book[property])
-            addGridItemMarkup(htmlMarkup)
-        }
-
-        const htmlButtonsMarkup = createButtonsMarkup(idBookName)
-        addGridItemMarkup(htmlButtonsMarkup)
-    }
-
-    startListeners()
-}
 
 //add listeners on buttons
 const startListeners = () => {
@@ -201,15 +177,42 @@ const startListeners = () => {
 }
 
 
-const populateStorage = () => {
-    localStorage.setItem('booksData', JSON.stringify(booksData))
-    populateData()
+//populate books data
+const populateData = () => {
+
+    let localBooksData = localStorage.getItem('booksData')
+    localBooksData = JSON.parse(localBooksData)
+
+    for ([index, book] of localBooksData.entries()) {
+
+        const idBookName = book.bookName.split(' ').join('-')
+
+        const htmlNumberingMarkup = createGridItemMarkup(idBookName, index + 1)
+        addGridItemMarkup(htmlNumberingMarkup)
+
+        for (property in book) {
+            const htmlMarkup = createGridItemMarkup(idBookName, book[property])
+            addGridItemMarkup(htmlMarkup)
+        }
+
+        const htmlButtonsMarkup = createButtonsMarkup(idBookName)
+        addGridItemMarkup(htmlButtonsMarkup)
+    }
+
+    startListeners()
 }
 
 
-//populateStorage()
 if (!localStorage.getItem('booksData')) {
-    populateStorage()
+    try{
+        localStorage.setItem('booksData', JSON.stringify(booksData))
+        populateData()
+    }
+    catch(e){   //Catch any error if localStorage is disabled
+        alert('Please Enable localStorage')
+        console.log(e)
+        populateData()
+    }
 } else {
     populateData()
 }

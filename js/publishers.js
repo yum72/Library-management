@@ -1,4 +1,6 @@
 
+const grid = document.querySelector('.grid')
+
 
 const createButtonsMarkup = (idData) => {
 
@@ -27,7 +29,7 @@ const createGridItemMarkup = (propertyName, bookData) => {
 
 
 const addGridItemMarkup = (htmlMarkup) => {
-    document.querySelector('.grid').appendChild(htmlMarkup)
+    grid.appendChild(htmlMarkup)
 }
 
 
@@ -64,9 +66,7 @@ const deleteAllElems = () => {
 //populate books data
 const populateData = () => {
 
-    let localBooksData = localStorage.getItem('booksData')
-    localBooksData = JSON.parse(localBooksData)
-
+    const localBooksData = JSON.parse(localStorage.getItem('booksData'))
     const publishers = uniquePublishers(localBooksData)
 
     for (publisher of publishers) {
@@ -90,8 +90,7 @@ const populateData = () => {
 //add listeners on buttons
 const startListeners = () => {
 
-    let localBooksData = localStorage.getItem('booksData')
-    localBooksData = JSON.parse(localBooksData)
+    const localBooksData = JSON.parse(localStorage.getItem('booksData'))
     const buttons = document.querySelectorAll('.delete')
 
     for (button of buttons) {
@@ -122,14 +121,17 @@ const startListeners = () => {
 
 }
 
-const populateStorage = () => {
-    localStorage.setItem('booksData', JSON.stringify(booksData))
-    populateData()
-}
 
-//  populateStorage()
 if (!localStorage.getItem('booksData')) {
-    populateStorage()
+    try{
+        localStorage.setItem('booksData', JSON.stringify(booksData))
+        populateData()
+    }
+    catch(e){   //Catch any error if localStorage is disabled
+        alert('Please Enable localStorage')
+        console.log(e)
+        populateData()
+    }
 } else {
     populateData()
 }

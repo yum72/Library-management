@@ -122,14 +122,17 @@ const startListeners = () => {
 
 }
 
-const populateStorage = () => {
-    localStorage.setItem('booksData', JSON.stringify(booksData))
-    populateData()
-}
 
-//  populateStorage()
 if (!localStorage.getItem('booksData')) {
-    populateStorage()
+    try{
+        localStorage.setItem('booksData', JSON.stringify(booksData))
+        populateData()
+    }
+    catch(e){   //Catch any error if localStorage is disabled
+        alert('Please Enable localStorage')
+        console.log(e)
+        populateData()
+    }
 } else {
     populateData()
 }
