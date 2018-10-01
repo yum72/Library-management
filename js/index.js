@@ -49,6 +49,17 @@ const deleteAllElems = () => {
 
 }
 
+const dateValidation = (date) => {
+    date = date.split('-')
+    if (date.length == 3 && date[0].length == 4 && date[1].length == 2 && date[2].length == 2) {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+
 
 const editMarkup = (fieldData) => {
 
@@ -145,30 +156,34 @@ const startListeners = () => {
             const inputPublisher = document.querySelectorAll('.editInput')[2].value
             const inputDate = document.querySelectorAll('.editInput')[3].value
 
-            if(inputFieldName && inputAuthor && inputPublisher && inputDate){
-                
-                for([index, book] of localBooksData.entries()){
-                    if(bookName == book.bookName ){
-                        localBooksData.splice(index, 1)
-                        localStorage.setItem('booksData', JSON.stringify(localBooksData))
-                        break;
+            if (inputFieldName && inputAuthor && inputPublisher && inputDate) {
+                if (dateValidation(inputDate)) {
+                    for ([index, book] of localBooksData.entries()) {
+                        if (bookName == book.bookName) {
+                            localBooksData.splice(index, 1)
+                            localStorage.setItem('booksData', JSON.stringify(localBooksData))
+                            break;
+                        }
                     }
+
+                    localBooksData.push({
+                        bookName: inputFieldName,
+                        author: inputAuthor,
+                        publisher: inputPublisher,
+                        date: inputDate
+                    })
+
+                    localStorage.setItem('booksData', JSON.stringify(localBooksData))
+
+                    deleteAllElems()
+                    populateData()
+                    alert("Book Updated!")
                 }
-
-                localBooksData.push({
-                    bookName : inputFieldName,
-                    author : inputAuthor,
-                    publisher : inputPublisher,
-                    date : inputDate
-                })
-
-                localStorage.setItem('booksData', JSON.stringify(localBooksData))
-
-                deleteAllElems()
-                populateData()
-                alert("Book Updated!")
+                else {
+                    alert("Date Format should be yyyy-mm-dd")
+                }
             }
-            else{
+            else {
                 alert("No Empty Fields")
             }
 
@@ -204,11 +219,11 @@ const populateData = () => {
 
 
 if (!localStorage.getItem('booksData')) {
-    try{
+    try {
         localStorage.setItem('booksData', JSON.stringify(booksData))
         populateData()
     }
-    catch(e){   //Catch any error if localStorage is disabled
+    catch (e) {   //Catch any error if localStorage is disabled
         alert('Please Enable localStorage')
         console.log(e)
         populateData()

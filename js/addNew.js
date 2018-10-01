@@ -16,6 +16,16 @@ const bookValidation = (books, inputBookName) => {
     return true
 }
 
+const dateValidation = (date) => {
+    date = date.split('-')
+    if (date.length == 3 && date[0].length == 4 && date[1].length == 2 && date[2].length == 2) {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
 
 const updateData = () => {
     const button = document.querySelector('.submit')
@@ -28,22 +38,27 @@ const updateData = () => {
             localBooksData = JSON.parse(localBooksData)
 
             if (bookValidation(localBooksData, bookName)) {
-                console.log("New Book is welcome")
-                localBooksData.push({
-                    bookName: bookName.value,
-                    author: authorName.value,
-                    publisher: publisherName.value,
-                    date: date.value
-                })
+                if (dateValidation(date.value)) {
+                    console.log("New Book is welcome")
+                    localBooksData.push({
+                        bookName: bookName.value,
+                        author: authorName.value,
+                        publisher: publisherName.value,
+                        date: date.value
+                    })
 
-                bookName.value = ''
-                authorName.value = ''
-                publisherName.value = ''
-                date.value = ''
+                    bookName.value = ''
+                    authorName.value = ''
+                    publisherName.value = ''
+                    date.value = ''
 
-                localStorage.setItem('booksData', JSON.stringify(localBooksData))
+                    localStorage.setItem('booksData', JSON.stringify(localBooksData))
 
-                alert("New Book Added!")
+                    alert("New Book Added!")
+                }
+                else {
+                    alert("Date Format should be yyyy-mm-dd")
+                }
             }
             else {
                 console.log("We have that book")
