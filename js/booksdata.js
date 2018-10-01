@@ -1,4 +1,4 @@
-let booksData = [
+const booksData = [
     {
         bookName : 'Harry Potter',
         author : 'J.K. Rowling',

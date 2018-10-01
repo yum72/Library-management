@@ -1,5 +1,5 @@
 
-let bookValidation = (books, inputBookName) => {
+const bookValidation = (books, inputBookName) => {
 
     for(book of books){
         if(book.bookName == inputBookName){
@@ -11,14 +11,14 @@ let bookValidation = (books, inputBookName) => {
 }
 
 
-let updateData = () => {
-    let button = document.querySelector('.submit')
+const updateData = () => {
+    const button = document.querySelector('.submit')
     button.onclick = event => {
 
-        let bookName = document.querySelector('.bookName').value
-        let authorName = document.querySelector('.authorName').value
-        let publisherName = document.querySelector('.publisherName').value
-        let date = document.querySelector('.date').value
+        const bookName = document.querySelector('.bookName').value
+        const authorName = document.querySelector('.authorName').value
+        const publisherName = document.querySelector('.publisherName').value
+        const date = document.querySelector('.date').value
 
         if(bookName && authorName && publisherName && date){
 
@@ -50,7 +50,7 @@ let updateData = () => {
 }
 
 
-let populateStorage = () => {
+const populateStorage = () => {
     localStorage.setItem('booksData', JSON.stringify(booksData))
     updateData()
 }

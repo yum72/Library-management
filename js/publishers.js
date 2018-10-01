@@ -1,25 +1,24 @@
 
 
-let createButtonsMarkup = (idData) => {
+const createButtonsMarkup = (idData) => {
 
-    var div = document.createElement('div')
+    let div = document.createElement('div')
     div.className = 'grid-item action';
 
-    let button1 = `<button class=delete data = ${idData}>Delete</button>`
-    let markup = button1
+    const button1 = `<button class=delete data = ${idData}>Delete</button>`
 
-    div.innerHTML = markup
+    div.innerHTML = button1
 
     return div
 }
 
 
-let createGridItemMarkup = (propertyName, bookData) => {
+const createGridItemMarkup = (propertyName, bookData) => {
 
-    var div = document.createElement('div')
+    let div = document.createElement('div')
     div.className = 'grid-item';
 
-    let markup = `<p class="item-text" data = ${propertyName} >${bookData}</p>`
+    const markup = `<p class="item-text" data = ${propertyName} >${bookData}</p>`
 
     div.innerHTML = markup
 
@@ -27,18 +26,18 @@ let createGridItemMarkup = (propertyName, bookData) => {
 }
 
 
-let addGridItemMarkup = (htmlMarkup) => {
+const addGridItemMarkup = (htmlMarkup) => {
     document.querySelector('.grid').appendChild(htmlMarkup)
 }
 
 
-let countInArray = (array, what) => {
+const countInArray = (array, what) => {
     return array.filter(item => item.publisher == what).length;
 }
 
 
-let uniquePublishers = (arr) => {
-    let unique = []
+const uniquePublishers = (arr) => {
+    const unique = []
     for (elem of arr) {
         if (unique.indexOf(elem.publisher) == -1) {
             unique.push(elem.publisher)
@@ -49,9 +48,9 @@ let uniquePublishers = (arr) => {
 
 
 //deletes all grid elements except first row
-let deleteAllElems = () => {
+const deleteAllElems = () => {
 
-    let allElements = document.querySelectorAll('.grid-item')
+    const allElements = document.querySelectorAll('.grid-item')
 
     for (element of allElements) {
         if (!element.classList.contains('first')) {
@@ -63,25 +62,25 @@ let deleteAllElems = () => {
 
 
 //populate books data
-let populateData = () => {
+const populateData = () => {
 
     let localBooksData = localStorage.getItem('booksData')
     localBooksData = JSON.parse(localBooksData)
 
-    let publishers = uniquePublishers(localBooksData)
+    const publishers = uniquePublishers(localBooksData)
 
     for (publisher of publishers) {
 
-        let idPublisherName = publisher.split(' ').join('-')
+        const idPublisherName = publisher.split(' ').join('-')
 
-        let publisherMarkup = createGridItemMarkup(idPublisherName, publisher)
+        const publisherMarkup = createGridItemMarkup(idPublisherName, publisher)
         addGridItemMarkup(publisherMarkup)
 
-        let count = countInArray(localBooksData, publisher)
-        let countMarkup = createGridItemMarkup('count', count)
+        const count = countInArray(localBooksData, publisher)
+        const countMarkup = createGridItemMarkup('count', count)
         addGridItemMarkup(countMarkup)
 
-        let htmlButtonsMarkup = createButtonsMarkup(idPublisherName)
+        const htmlButtonsMarkup = createButtonsMarkup(idPublisherName)
         addGridItemMarkup(htmlButtonsMarkup)
     }
 
@@ -89,20 +88,20 @@ let populateData = () => {
 }
 
 //add listeners on buttons
-let startListeners = () => {
+const startListeners = () => {
 
     let localBooksData = localStorage.getItem('booksData')
     localBooksData = JSON.parse(localBooksData)
-    let buttons = document.querySelectorAll('.delete')
+    const buttons = document.querySelectorAll('.delete')
 
     for (button of buttons) {
         button.onclick = event => {
             
             console.log('clicked', event.target.getAttribute('data'))
-            let clickedBookId = event.target.getAttribute('data')
-            let normalPublisherName = clickedBookId.split('-').join(' ')
+            const clickedBookId = event.target.getAttribute('data')
+            const normalPublisherName = clickedBookId.split('-').join(' ')
 
-            let updatedBooksData = []
+            const updatedBooksData = []
 
             //find and delete Author data
             for ([index, book] of localBooksData.entries()) {
@@ -123,7 +122,7 @@ let startListeners = () => {
 
 }
 
-let populateStorage = () => {
+const populateStorage = () => {
     localStorage.setItem('booksData', JSON.stringify(booksData))
     populateData()
 }

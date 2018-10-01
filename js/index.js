@@ -1,15 +1,15 @@
 
 
-let createButtonsMarkup = (idData) => {
+const createButtonsMarkup = (idData) => {
 
-    var div = document.createElement('div')
+    let div = document.createElement('div')
     div.className = 'grid-item action';
 
-    let button1 = `<button class=delete data = ${idData}>Delete</button>`
-    let button2 = `<button class=update data = ${idData}>Update</button>`
-    let button3 = `<button class=update-done data = ${idData}>Done</button>`
-    let button4 = `<button class=update-cancel data = ${idData}>Cancel</button>`
-    let markup = button1 + button2 + button3 + button4
+    const button1 = `<button class=delete data = ${idData}>Delete</button>`
+    const button2 = `<button class=update data = ${idData}>Update</button>`
+    const button3 = `<button class=update-done data = ${idData}>Done</button>`
+    const button4 = `<button class=update-cancel data = ${idData}>Cancel</button>`
+    const markup = button1 + button2 + button3 + button4
 
     div.innerHTML = markup
 
@@ -17,12 +17,12 @@ let createButtonsMarkup = (idData) => {
 }
 
 
-let createGridItemMarkup = (propertyName, bookData) => {
+const createGridItemMarkup = (propertyName, bookData) => {
 
-    var div = document.createElement('div')
+    let div = document.createElement('div')
     div.className = 'grid-item';
 
-    let markup = `<p class="item-text" data = "${propertyName}" >${bookData}</p>`
+    const markup = `<p class="item-text" data = "${propertyName}" >${bookData}</p>`
 
     div.innerHTML = markup
 
@@ -30,13 +30,13 @@ let createGridItemMarkup = (propertyName, bookData) => {
 }
 
 
-let addGridItemMarkup = (htmlMarkup) => {
+const addGridItemMarkup = (htmlMarkup) => {
     document.querySelector('.grid').appendChild(htmlMarkup)
 }
 
 
 //deletes all grid elements except first row
-let deleteAllElems = () => {
+const deleteAllElems = () => {
 
     let allElements = document.querySelectorAll('.grid-item')
 
@@ -49,9 +49,9 @@ let deleteAllElems = () => {
 }
 
 
-let editMarkup = (fieldData) => {
+const editMarkup = (fieldData) => {
 
-    let markup = `<input type="text" class="editInput" value="${fieldData}">`
+    const markup = `<input type="text" class="editInput" value="${fieldData}">`
 
     return markup
 
@@ -59,18 +59,18 @@ let editMarkup = (fieldData) => {
 
 
 //edit data markup changes
-let updateDataMarkup = (dataName) => {
-    let updateSelectors = document.querySelectorAll(`[data=${dataName}]`)
+const updateDataMarkup = (dataName) => {
+    const updateSelectors = document.querySelectorAll(`[data=${dataName}]`)
 
     for (let i = 1; i < 5; i++) {
-        let fieldData = updateSelectors[i].innerText
-        let newMarkup = editMarkup(fieldData)
+        const fieldData = updateSelectors[i].innerText
+        const newMarkup = editMarkup(fieldData)
 
         updateSelectors[i].parentElement.innerHTML = newMarkup
     }
 
     //hide all buttons and display done/cancel
-    let buttons = document.querySelectorAll(`.grid button`)
+    const buttons = document.querySelectorAll(`.grid button`)
     for (button of buttons) {
         button.style.display = 'none';
     }
@@ -82,24 +82,24 @@ let updateDataMarkup = (dataName) => {
 
 
 //populate books data
-let populateData = () => {
+const populateData = () => {
 
     let localBooksData = localStorage.getItem('booksData')
     localBooksData = JSON.parse(localBooksData)
 
     for ([index, book] of localBooksData.entries()) {
 
-        let idBookName = book.bookName.split(' ').join('-')
+        const idBookName = book.bookName.split(' ').join('-')
 
-        let htmlNumberingMarkup = createGridItemMarkup(idBookName, index + 1)
+        const htmlNumberingMarkup = createGridItemMarkup(idBookName, index + 1)
         addGridItemMarkup(htmlNumberingMarkup)
 
         for (property in book) {
-            let htmlMarkup = createGridItemMarkup(idBookName, book[property])
+            const htmlMarkup = createGridItemMarkup(idBookName, book[property])
             addGridItemMarkup(htmlMarkup)
         }
 
-        let htmlButtonsMarkup = createButtonsMarkup(idBookName)
+        const htmlButtonsMarkup = createButtonsMarkup(idBookName)
         addGridItemMarkup(htmlButtonsMarkup)
     }
 
@@ -107,7 +107,7 @@ let populateData = () => {
 }
 
 //add listeners on buttons
-let startListeners = () => {
+const startListeners = () => {
 
     let localBooksData = localStorage.getItem('booksData')
     localBooksData = JSON.parse(localBooksData)
@@ -117,8 +117,8 @@ let startListeners = () => {
     for (button of buttons) {
         button.onclick = event => {
             console.log('clicked', event.target.getAttribute('data'))
-            let clickedBookId = event.target.getAttribute('data')
-            let normalBookName = clickedBookId.split('-').join(' ')
+            const clickedBookId = event.target.getAttribute('data')
+            const normalBookName = clickedBookId.split('-').join(' ')
 
             //find and delete book
             for ([index, book] of localBooksData.entries()) {
@@ -136,18 +136,18 @@ let startListeners = () => {
     }
 
     //update button listeners and logic
-    let updateButtons = document.querySelectorAll('.update')
+    const updateButtons = document.querySelectorAll('.update')
 
     for (updateButton of updateButtons) {
         updateButton.onclick = event => {
             console.log('update clicked', event.target.getAttribute('data'))
-            let clickedBookId = event.target.getAttribute('data')
+            const clickedBookId = event.target.getAttribute('data')
             updateDataMarkup(clickedBookId)
         }
     }
 
     //cancel button refreshes table and removes input fields added by update
-    let cancelButtons = document.querySelectorAll('.update-cancel')
+    const cancelButtons = document.querySelectorAll('.update-cancel')
 
     for (cancelButton of cancelButtons) {
         cancelButton.onclick = event => {
@@ -157,17 +157,17 @@ let startListeners = () => {
     }
 
     //Done button listeners and logic
-    let doneButtons = document.querySelectorAll('.update-done')
+    const doneButtons = document.querySelectorAll('.update-done')
 
     for (doneButton of doneButtons) {
         doneButton.onclick = event => {
             console.log('done clicked', event.target.getAttribute('data'))
 
-            let bookName = event.target.getAttribute('data').split('-').join(' ')
-            let inputFieldName = document.querySelectorAll('.editInput')[0].value
-            let inputAuthor = document.querySelectorAll('.editInput')[1].value
-            let inputPublisher = document.querySelectorAll('.editInput')[2].value
-            let inputDate = document.querySelectorAll('.editInput')[3].value
+            const bookName = event.target.getAttribute('data').split('-').join(' ')
+            const inputFieldName = document.querySelectorAll('.editInput')[0].value
+            const inputAuthor = document.querySelectorAll('.editInput')[1].value
+            const inputPublisher = document.querySelectorAll('.editInput')[2].value
+            const inputDate = document.querySelectorAll('.editInput')[3].value
 
             if(inputFieldName && inputAuthor && inputPublisher && inputDate){
                 
@@ -201,7 +201,7 @@ let startListeners = () => {
 }
 
 
-let populateStorage = () => {
+const populateStorage = () => {
     localStorage.setItem('booksData', JSON.stringify(booksData))
     populateData()
 }
