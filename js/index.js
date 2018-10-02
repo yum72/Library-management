@@ -216,8 +216,6 @@ const populateData = () => {
 
 }
 
-
-
 const start = () => {
     if (!localStorage.getItem('booksData')) {
         try {
