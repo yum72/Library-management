@@ -114,7 +114,7 @@ const startListeners = () => {
                     localBooksData.splice(index, 1)
                     localStorage.setItem('booksData', JSON.stringify(localBooksData))
                     deleteAllElems()
-                    populateData()
+                    start()
                     break;
                 }
             }
@@ -139,7 +139,7 @@ const startListeners = () => {
     for (cancelButton of cancelButtons) {
         cancelButton.onclick = event => {
             deleteAllElems()
-            populateData()
+            start()
         }
     }
 
@@ -176,7 +176,7 @@ const startListeners = () => {
                     localStorage.setItem('booksData', JSON.stringify(localBooksData))
 
                     deleteAllElems()
-                    populateData()
+                    start()
                     alert("Book Updated!")
                 }
                 else {
@@ -214,20 +214,26 @@ const populateData = () => {
         addGridItemMarkup(htmlButtonsMarkup)
     }
 
-    startListeners()
 }
 
 
-if (!localStorage.getItem('booksData')) {
-    try {
-        localStorage.setItem('booksData', JSON.stringify(booksData))
+
+const start = () => {
+    if (!localStorage.getItem('booksData')) {
+        try {
+            localStorage.setItem('booksData', JSON.stringify(booksData))
+            populateData()
+            startListeners()
+        }
+        catch (e) {   //Catch any error if localStorage is disabled
+            alert('Please Enable localStorage')
+            console.log(e)
+            populateData()
+        }
+    } else {
         populateData()
+        startListeners()
     }
-    catch (e) {   //Catch any error if localStorage is disabled
-        alert('Please Enable localStorage')
-        console.log(e)
-        populateData()
-    }
-} else {
-    populateData()
 }
+
+start()
